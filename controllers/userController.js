@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 
 const bcrypt = require("bcryptjs");
-
+const passport = require("passport")
 
 
 //import models 
@@ -76,7 +76,7 @@ exports.user_create_post =
                     await user.save();
 
                     //Redirect back to homepage 
-                    res.redirect('/');
+                    res.redirect(user.url);
                 }
                 catch (err) {
                     return next(err);
@@ -89,6 +89,15 @@ exports.user_create_post =
 exports.user_login_get = asyncHandler(async (req, res, next) => {
     res.render("login_form", {})
 })
+
+//POST for login
+exports.user_login_post = function(req, res, next) {
+    passport.authenticate('local', function(err, user, info, status) {
+      if (err) { return next(err) }
+      if (!user) { return res.redirect('/login') }
+      res.redirect(user.url);
+    })(req, res, next);
+  };
 
 //GET request for user detail
 exports.user_detail = asyncHandler(async (req, res, next) => {

@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router();
 const passport = require('passport')
 const user_controller = require("../controllers/userController");
+const User = require('../models/user');
 
 //TEST "/" route
 router.get("/", user_controller.index);
@@ -18,10 +19,11 @@ router.get('/login', user_controller.user_login_get);
 //GET request for user detail
 router.get('/user/:id', user_controller.user_detail);
 
-router.post('/login', passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login',
-    failureFlash: true
-  }));
+// router.post('/login', passport.authenticate('local', {
+//     successRedirect: '/',
+//     failureRedirect: '/login',
+//     failureFlash: true
+//   }));
   
+router.post('/login', user_controller.user_login_post);
 module.exports = router;
