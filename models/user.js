@@ -13,9 +13,9 @@ const UserSchema = new Schema(
 );
 
 // //Virtual for item's URL
-// CategorySchema.virtual("url").get(function(){
-//     //Dont use arrow function as we will need to use this object
-//     return `/catalog/category/${this._id}`
-// });
+UserSchema.virtual("url").get(function(){
+    //Dont use arrow function as we will need to use this object
+    return `/homepage/user/${this._id}`
+});
 
 module.exports = mongoose.model("User", UserSchema);
