@@ -1,8 +1,7 @@
 const express = require("express")
 const router = express.Router();
-const passport = require('passport')
 const user_controller = require("../controllers/userController");
-const User = require('../models/user');
+const post_controller = require("../controllers/postController");
 
 //TEST "/" route
 router.get("/", user_controller.index);
@@ -15,15 +14,14 @@ router.post('/signup', user_controller.user_create_post);
 
 //GET requeset for login
 router.get('/login', user_controller.user_login_get);
+  
+//POST request for login
+router.post('/login', user_controller.user_login_post);
 
 //GET request for user detail
 router.get('/user/:id', user_controller.user_detail);
 
-// router.post('/login', passport.authenticate('local', {
-//     successRedirect: '/',
-//     failureRedirect: '/login',
-//     failureFlash: true
-//   }));
-  
-router.post('/login', user_controller.user_login_post);
+//POST request for new post in user detail
+router.post('/user/:id', post_controller.new_post);
+
 module.exports = router;
