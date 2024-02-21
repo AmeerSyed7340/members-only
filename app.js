@@ -55,6 +55,19 @@ passport.use(
   })
 );
 
+//gtp generated localstrategy
+// passport.use(new LocalStrategy(
+//   function(username, password, done) {
+//     User.findOne({ username: username }, function (err, user) {
+//       if (err) { return done(err); }
+//       if (!user) { return done(null, false); } // No user found
+//       if (!bcrypt.compareSync(password, user.password)) { return done(null, false); } // Password does not match
+//       return done(null, user); // Success
+//     });
+//   }
+// ));
+
+
 passport.serializeUser((user, done) => {
   done(null, user.id);
 })
@@ -82,6 +95,13 @@ app.set('view engine', 'pug');
 app.use(session({secret: "cats", resave: false, saveUninitialized: true}));
 app.use(passport.initialize());
 app.use(passport.session());
+
+//middleware to ensure user is being serialized correctly
+app.use((req, res, next) => {
+  console.log('User in session:', req.user);
+  next();
+});
+
 app.use(express.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {

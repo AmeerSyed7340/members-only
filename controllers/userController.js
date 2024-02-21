@@ -97,11 +97,20 @@ exports.user_login_get = asyncHandler(async (req, res, next) => {
 })
 
 //POST for login
+//This approach needs me to set up a login session manually
 exports.user_login_post = function(req, res, next) {
     passport.authenticate('local', function(err, user, info, status) {
       if (err) { return next(err)}
       if (!user) { return res.redirect('/homepage/login') }
-      res.redirect(user.url);
+
+      //Manually log in the user
+      req.logIn(user, function(err){
+        if(err){
+            return next(err);
+        }
+        //Upos successful login, redirect to the desired page
+        return res.redirect(user.url);
+      })      
     })(req, res, next);
   };
 
@@ -133,7 +142,7 @@ exports.secret_form_get = asyncHandler(async(req, res, next) =>{
 
 //POST request for secret form
 exports.secret_form_post = asyncHandler(async(req, res, next) => {
-    console.log(req.body.password);
+    console.log(req.params.id);
 
     res.redirect('/');
 })
