@@ -18,3 +18,7 @@ block content
             textarea#message_content(name="message_content", cols="100", rows="10") 
             br
             button.btn.btn-primary(type='submit') Submit
+            br
+            br
+            if(user.membership_status === false)
+                a(href=`${user.url}/secret`) I have the secret code!

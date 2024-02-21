@@ -121,6 +121,19 @@ exports.user_detail = asyncHandler(async (req, res, next) => {
 
     res.render("user_detail", {
         username: user.username,
-        posts: posts
+        posts: posts,
+        user: user
     })
+})
+
+//GET request for secret form
+exports.secret_form_get = asyncHandler(async(req, res, next) =>{
+    res.render('secret_form', {});
+})
+
+//POST request for secret form
+exports.secret_form_post = asyncHandler(async(req, res, next) => {
+    console.log(req.body.password);
+
+    res.redirect('/');
 })

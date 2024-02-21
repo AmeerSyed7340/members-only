@@ -18,6 +18,12 @@ router.get('/login', user_controller.user_login_get);
 //POST request for login
 router.post('/login', user_controller.user_login_post);
 
+//GET request for secret
+router.get('/user/:id/secret', user_controller.secret_form_get);
+
+//POST request for secret
+router.post('/user/:id/secret', user_controller.secret_form_post);
+
 //GET request for user detail
 router.get('/user/:id', user_controller.user_detail);
 
