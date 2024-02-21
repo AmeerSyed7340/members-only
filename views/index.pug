@@ -3,6 +3,15 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  
+  if posts.length   
+    h3 All Posts 
+    each post in posts 
+      .post 
+        p= post.content 
+  else 
+    p No posts available yet.
+  
   a(href='/homepage/signup') Sign up
   br
   a(href='/homepage/login') Log in

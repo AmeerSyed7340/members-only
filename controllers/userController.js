@@ -6,12 +6,18 @@ const passport = require("passport")
 
 //import models 
 const User = require('../models/user');
+const Post = require('../models/post');
+
 const { body, validationResult } = require("express-validator");
 
 //GET request for index
 exports.index = asyncHandler(async (req, res, next) => {
+    //fetch all posts in the database
+    const posts = await Post.find().sort({createdAt: -1}).exec();
+
     res.render("index", {
-        title: "Index"
+        title: "Members only Project",
+        posts: posts
     });
 });
 
@@ -76,7 +82,7 @@ exports.user_create_post =
                     await user.save();
 
                     //Redirect back to homepage 
-                    res.redirect(user.url);
+                    res.redirect('/');
                 }
                 catch (err) {
                     return next(err);
@@ -93,15 +99,17 @@ exports.user_login_get = asyncHandler(async (req, res, next) => {
 //POST for login
 exports.user_login_post = function(req, res, next) {
     passport.authenticate('local', function(err, user, info, status) {
-      if (err) { return next(err) }
-      if (!user) { return res.redirect('/login') }
+      if (err) { return next(err)}
+      if (!user) { return res.redirect('/homepage/login') }
       res.redirect(user.url);
     })(req, res, next);
   };
 
 //GET request for user detail
 exports.user_detail = asyncHandler(async (req, res, next) => {
+    const userID = req.params.id;
     const user = await User.findById(req.params.id);
+    const posts = await Post.find({user: userID}).sort({createdAt: -1}).exec();
 
     //handle if user does not exist
     if (user === null) {
@@ -112,6 +120,7 @@ exports.user_detail = asyncHandler(async (req, res, next) => {
     }
 
     res.render("user_detail", {
-        username: user.username
+        username: user.username,
+        posts: posts
     })
 })
