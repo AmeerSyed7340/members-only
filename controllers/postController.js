@@ -32,3 +32,11 @@ exports.new_post = [
         }
     })
 ]
+
+exports.post_delete = asyncHandler(async(req, res, next) => {
+    const postID = req.params.id;
+    const user = req.user;
+    const currentPost = await Post.findByIdAndDelete(postID).exec();
+
+    res.redirect(`${user.url}`);
+})

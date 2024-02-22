@@ -7,7 +7,10 @@ block content
         h3 Posts by #{username}
         each post in posts
             .post 
-                p= post.content
+                p #{post.content} 
+                //Create a form for deleting each post
+                form(action=`${post.url}/delete` method="POST")
+                    button.btn(type='submit') Delete post
     else 
         p No posts available.
 

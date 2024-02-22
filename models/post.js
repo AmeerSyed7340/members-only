@@ -20,4 +20,10 @@ const PostSchema = new Schema(
     }
 );//Schema
 
+// //Virtual for item's URL
+PostSchema.virtual("url").get(function(){
+    //Dont use arrow function as we will need to use this object
+    return `/homepage/post/${this._id}`
+});
+
 module.exports = mongoose.model("Post", PostSchema);

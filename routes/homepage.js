@@ -33,4 +33,7 @@ router.get('/user/:id', user_controller.user_detail);
 //POST request for new post in user detail
 router.post('/user/:id', post_controller.new_post);
 
+//DELETE request in user detail
+router.post('/post/:id/delete', post_controller.post_delete);
+
 module.exports = router;
