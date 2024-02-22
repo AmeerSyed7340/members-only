@@ -19,6 +19,9 @@ block content
         each post in posts 
           .post 
             p= post.content
+            //- Display username if post.user exists
+            if post.user
+              p Posted by: #{post.user.username}
       else 
         p No posts yet
     a(href=`/homepage/user/${user._id}`) Profile
@@ -29,7 +32,7 @@ block content
       h3 All posts 
       each post in posts 
         .post 
-          p= post.content 
+          p= post.content
     else 
       p No posts yet
     a(href='/homepage/signup') Sign up

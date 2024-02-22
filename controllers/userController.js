@@ -15,7 +15,10 @@ const { body, validationResult } = require("express-validator");
 //GET request for index
 exports.index = asyncHandler(async (req, res, next) => {
     //fetch all posts in the database
-    const posts = await Post.find().sort({createdAt: -1}).exec();
+    const posts = await Post.find()
+                            .sort({createdAt: -1})
+                            .populate('user')
+                            .exec();
 
     res.render("index", {
         title: "Members only Project",
