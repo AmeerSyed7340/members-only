@@ -84,10 +84,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //middleware to ensure user is being serialized correctly
-// app.use((req, res, next) => {
-//   console.log('User in session:', req.user);
-//   next();
-// });
+app.use((req, res, next) => {
+  console.log('User in session:', req.user);
+  next();
+});
 
 app.use(express.urlencoded({ extended: false }));
 

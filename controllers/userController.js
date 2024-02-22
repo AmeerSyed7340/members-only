@@ -19,7 +19,8 @@ exports.index = asyncHandler(async (req, res, next) => {
 
     res.render("index", {
         title: "Members only Project",
-        posts: posts
+        posts: posts,
+        user: req.user
     });
 });
 
@@ -139,7 +140,9 @@ exports.user_detail = asyncHandler(async (req, res, next) => {
 
 //GET request for secret form
 exports.secret_form_get = asyncHandler(async(req, res, next) =>{
-    res.render('secret_form', {});
+    res.render('secret_form', {
+        user: req.user
+    });
 })
 
 //POST request for secret form
@@ -157,7 +160,7 @@ exports.secret_form_post = asyncHandler(async(req, res, next) => {
             await User.findByIdAndUpdate(userID, {membership_status: true});
 
             //redirect to a differnt route
-            res.redirect('/');
+            res.redirect(`/homepage/user/${user._id}`);
         }
         else{
             console.log('Password does not match');
@@ -167,4 +170,12 @@ exports.secret_form_post = asyncHandler(async(req, res, next) => {
    catch(err){
     return next(err);
    }    
+})
+
+//GET request for user logout
+exports.user_logout_get = asyncHandler(async(req, res, next) => {
+    req.logout((err)=>{
+        if(err) return next(err);        res.redirect('/');
+
+    });// Passport.js provides this method to log the user out
 })

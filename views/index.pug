@@ -10,8 +10,13 @@ block content
       .post 
         p= post.content 
   else 
-    p No posts available yet.
+    p No posts available yet.  
   
-  a(href='/homepage/signup') Sign up
-  br
-  a(href='/homepage/login') Log in
+  if(user === undefined)
+    a(href='/homepage/signup') Sign up
+    br
+    a(href='/homepage/login') Log in
+  else 
+    a(href=`/homepage/user/${user._id}`) Profile
+    br
+    include ./partials/logout-link.pug
