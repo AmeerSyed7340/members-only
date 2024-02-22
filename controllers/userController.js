@@ -3,6 +3,8 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
 const passport = require("passport")
 
+//require dotenv module
+require('dotenv').config();
 
 //import models 
 const User = require('../models/user');
@@ -142,7 +144,27 @@ exports.secret_form_get = asyncHandler(async(req, res, next) =>{
 
 //POST request for secret form
 exports.secret_form_post = asyncHandler(async(req, res, next) => {
-    console.log(req.params.id);
+    const submittedPassword = req.body.password;
+    const user = req.user;
+    try{
+        const isMatch = await bcrypt.compare(submittedPassword, process.env.HASHED_PASSWORD);
+        
+        if(isMatch){
+            //get userID from session in user
+            const userID = req.user._id;
 
-    res.redirect('/');
+            //make query
+            await User.findByIdAndUpdate(userID, {membership_status: true});
+
+            //redirect to a differnt route
+            res.redirect('/');
+        }
+        else{
+            console.log('Password does not match');
+            res.redirect('/homepage/login')
+        }
+    }
+   catch(err){
+    return next(err);
+   }    
 })
