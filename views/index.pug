@@ -4,19 +4,34 @@ block content
   h1= title
   p Welcome to #{title}
   
-  if posts.length   
-    h3 All Posts 
-    each post in posts 
-      .post 
-        p= post.content 
-  else 
-    p No posts available yet.  
-  
-  if(user === undefined)
-    a(href='/homepage/signup') Sign up
-    br
-    a(href='/homepage/login') Log in
-  else 
+  if(user)
+    if(user.membership_status === false)
+      if posts.length 
+        h3 All posts 
+        each post in posts 
+          .post 
+            p= post.content
+      else 
+        p No posts yet
+    else
+      if posts.length 
+        h3 All posts 
+        each post in posts 
+          .post 
+            p= post.content
+      else 
+        p No posts yet
     a(href=`/homepage/user/${user._id}`) Profile
     br
     include ./partials/logout-link.pug
+  else
+    if posts.length 
+      h3 All posts 
+      each post in posts 
+        .post 
+          p= post.content 
+    else 
+      p No posts yet
+    a(href='/homepage/signup') Sign up
+    br
+    a(href='/homepage/login') Log in
